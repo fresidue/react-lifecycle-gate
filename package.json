@@ -13,7 +13,7 @@
     "gate",
     "component"
   ],
-  "author": "Fredrik Carlsson",
+  "author": "fresidue",
   "license": "ISC",
   "devDependencies": {
     "babel-env": "^2.4.1",
