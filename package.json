@@ -26,5 +26,13 @@
   "dependencies": {
     "react": "^16.3.2",
     "react-dom": "^16.3.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fresidue/react-lifecycle-gate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fresidue/react-lifecycle-gate/issues"
+  },
+  "homepage": "https://github.com/fresidue/react-lifecycle-gate#readme"
 }
