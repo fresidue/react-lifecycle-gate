@@ -9,12 +9,13 @@ import LifecycleGate from './react-lifecycle-gate';
 enzyme.configure({adapter: new Adapter()});
 sinon.spy(LifecycleGate.prototype, 'componentDidMount');
 
-describe('LifecycleGate:', () => {
+describe('mount & unmount:', () => {
   it('calls componentDidMount', () => {
     const willMount = sinon.spy();
     const didMount = sinon.spy();
     const willUnmount = sinon.spy();
     const wrapper = enzyme.mount(
+
       <LifecycleGate
         willMount={willMount}
         didMount={didMount}
@@ -23,15 +24,12 @@ describe('LifecycleGate:', () => {
     );
     expect(willMount.calledOnce).to.equal(true);
     expect(didMount.calledOnce).to.equal(true);
-    console.log('crazy');
     wrapper.unmount();
-    console.log('crazycrow');
     expect(willUnmount.calledOnce).to.equal(true);
-    console.log('crazycrowing');
   });
 });
 
-describe('Nested gates: ', () => {
+describe('nested gates: ', () => {
   const outerWillMount = sinon.spy();
   const outerDidMount = sinon.spy();
   const outerWillUnmount = sinon.spy();
@@ -61,5 +59,29 @@ describe('Nested gates: ', () => {
   wrapper.unmount();
   it('calls nested willUnmount\'s from root to leaf of DOM', () => {
     sinon.assert.callOrder(outerWillUnmount, innerWillUnmount);
+  });
+});
+
+describe('props change: ', () => {
+  const willReceiveProps = sinon.spy();
+  const willUpdate = sinon.spy();
+  const didUpdate = sinon.spy();
+  const Changer = props => (
+    <LifecycleGate
+      willReceiveProps={willReceiveProps}
+      willUpdate={willUpdate}
+      didUpdate={didUpdate} >
+      <p>{props.number || 0}</p>
+    </LifecycleGate>
+  );
+  const wrapper = enzyme.mount(<Changer />);
+  it('calls events in correct order', () => {
+    expect(wrapper.html()).to.equal('<p>0</p>');
+    wrapper.setProps({number: 2});
+    expect(willReceiveProps.calledOnce).to.equal(true);
+    expect(willUpdate.calledOnce).to.equal(true);
+    expect(didUpdate.calledOnce).to.equal(true);
+    sinon.assert.callOrder(willReceiveProps, willUpdate, didUpdate);
+    expect(wrapper.html()).to.equal('<p>2</p>');
   });
 });
