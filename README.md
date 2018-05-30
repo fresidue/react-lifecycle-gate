@@ -7,25 +7,26 @@ A lightweight component to which lifecycle hooks can easily be attached as props
 
 Suppose you want to use a pure functional component, and need to trigger some stuffs on e.g. componentDidMount, just wrap your content in a lifecycle gate and you're done.
 
-```
+```javascript
 import LifecycleGate from 'react-lifecycle-gate';
 
 const initStuffs = () => {};
-const moreInitStuffs = () => {};
-const cleanupStuffsShouldAvoidStateChanges = () => {};
-const otherStuffs = () => {};
 
 export const JankyComponent = props => (
   <LifecycleGate
     willMount={initStuffs}
-    didMount={moreInitStuffs}
-    willUnmount={cleanupStuffsShouldAvoidStateChanges}
-    willReceiveProps={otherStuffs}
-    willUpdate={otherStuffs}
-    didUpdate={() => {
-      console.log('state changes here should also be avoided');
+    willUpdate={() => {
+      console.log('fresh props just arrived');
     }} >
     <p>Children get rendered if included. If not, the callbacks get called anyways of course</p>
   </LifecycleGate>
 );
 ```
+## Supported properties
+
+#### willMount
+#### didMount
+#### willUnmount
+#### willReceiveProps
+#### willUpdate
+#### didUpdate
