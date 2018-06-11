@@ -10,12 +10,10 @@ class LifecycleGate extends React.Component {
   componentWillUnmount () {
     this.props.willUnmount && this.props.willUnmount();
   }
-
   componentWillReceiveProps () {
     this.props.willReceiveProps && this.props.willReceiveProps();
   }
   componentWillUpdate() {
-    console.log('calling componentWillUpdate');
     this.props.willUpdate && this.props.willUpdate();
   }
   componentDidUpdate () {
